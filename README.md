@@ -12,6 +12,8 @@ Experimenting the Nest tool
 
 * Nestjs
 * Yarn
+* TypeORM
+* Sqlite3
 
 ### Installing and Running
 

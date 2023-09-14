@@ -15,6 +15,12 @@ Experimenting the Nest tool
 * TypeORM
 * Sqlite3
 
+### Patterns
+
+* api rest
+* dto
+* dependency injection
+
 ### Installing and Running
 
 * yarn install

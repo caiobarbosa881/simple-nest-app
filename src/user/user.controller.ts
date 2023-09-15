@@ -11,13 +11,16 @@ import {
 import { UserService } from './user.service';
 import { User } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
-
+import { UserDto } from './dto/user.dto';
+import { HttpStatus } from '@nestjs/common/enums';
+import { HttpException } from '@nestjs/common/exceptions';
+import { CreateUserResponseDto } from './dto/create-user-response.dto';
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get()
-  findAll(): Promise<User[]> {
+  @Get('')
+  findAllUsers(): Promise<User[]> {
     return this.userService.findAll();
   }
 
@@ -27,8 +30,24 @@ export class UserController {
   }
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto): Promise<User> {
-    return this.userService.create(createUserDto);
+  async create(
+    @Body() createUserDto: CreateUserDto,
+  ): Promise<CreateUserResponseDto> {
+    try {
+      const createdUser = await this.userService.create(createUserDto);
+
+      const userDto: CreateUserResponseDto = {
+        name: createdUser.name,
+        mail: createdUser.mail,
+        birthday: createdUser.birthday,
+      };
+      return userDto;
+    } catch (error) {
+      throw new HttpException(
+        'Erro ao criar usuário',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
   @Put(':id')

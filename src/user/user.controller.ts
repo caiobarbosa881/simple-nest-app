@@ -8,26 +8,25 @@ import {
   Param,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { User } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { HttpStatus } from '@nestjs/common/enums';
 import { HttpException } from '@nestjs/common/exceptions';
-import { CreateUserResponseDto } from './dto/create-user-response.dto';
 import { UserDto } from './dto/user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { CreateUserResponseDto } from './dto/create-user-response.dto';
 
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get('')
-  findAllUsers(): Promise<UserDto[]> {
-    return this.userService.findAll();
+  async findAllUsers(): Promise<UserDto[]> {
+    return await this.userService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<User> {
-    return this.userService.findOne(id);
+  async findOne(@Param('id') id: string): Promise<UserDto> {
+    return await this.userService.findOne(id);
   }
 
   @Post()
@@ -52,12 +51,15 @@ export class UserController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto): Promise<UserDto> {
-    return this.userService.update(id, updateUserDto);
+  async update(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+  ): Promise<UserDto> {
+    return await this.userService.update(id, updateUserDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<void> {
-    return this.userService.remove(id);
+  async remove(@Param('id') id: string): Promise<void> {
+    return await this.userService.remove(id);
   }
 }

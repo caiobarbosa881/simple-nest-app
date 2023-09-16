@@ -20,8 +20,16 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get('')
-  async findAllUsers(): Promise<UserDto[]> {
-    return await this.userService.findAll();
+  async findAll(): Promise<UserDto[]> {
+    const users = await this.userService.findAll();
+    const userDtos: UserDto[] = users.map((user) => ({
+      id: user.id,
+      name: user.name,
+      mail: user.mail,
+      birthday: user.birthday,
+      createdAt: user.createdAt,
+    }));
+    return userDtos;
   }
 
   @Get(':id')

@@ -1,4 +1,3 @@
-// user.controller.ts
 import {
   Controller,
   Get,
@@ -14,13 +13,15 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { HttpStatus } from '@nestjs/common/enums';
 import { HttpException } from '@nestjs/common/exceptions';
 import { CreateUserResponseDto } from './dto/create-user-response.dto';
+import { UserDto } from './dto/user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get('')
-  findAllUsers(): Promise<User[]> {
+  findAllUsers(): Promise<UserDto[]> {
     return this.userService.findAll();
   }
 
@@ -51,7 +52,7 @@ export class UserController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: User): Promise<User> {
+  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto): Promise<UserDto> {
     return this.userService.update(id, updateUserDto);
   }
 

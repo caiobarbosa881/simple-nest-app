@@ -1,18 +1,15 @@
-import { IsEmail, IsNotEmpty, IsDate, IsString } from 'class-validator';
+import { IsDate, IsEmail, IsString, IsUUID } from 'class-validator';
 
 export class UserDto {
-  @IsString()
+  @IsUUID()
   readonly id: string;
 
-  @IsNotEmpty()
   @IsString()
   readonly name: string;
 
-  @IsNotEmpty()
   @IsEmail()
   readonly mail: string;
 
-  @IsNotEmpty()
   @IsDate()
   readonly birthday: Date;
 

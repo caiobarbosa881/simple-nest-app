@@ -14,6 +14,7 @@ Experimenting the Nest tool
 * Yarn
 * TypeORM
 * Sqlite3
+* class-validator
 
 ### Patterns
 

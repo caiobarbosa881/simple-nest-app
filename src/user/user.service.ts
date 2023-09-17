@@ -40,6 +40,11 @@ export class UserService {
 
   async remove(id: string): Promise<void> {
     const user = await this.userRepository.findOne({ where: { id: id } });
+    if (!user) {
+      throw new NotFoundException(
+        `Usuário com esse id ${id} não foi encontrado`,
+      );
+    }
     await this.userRepository.remove(user);
   }
 }

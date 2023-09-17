@@ -22,6 +22,7 @@ export class UserController {
   @Get('')
   async findAll(): Promise<UserDto[]> {
     const users = await this.userService.findAll();
+
     const userDtos: UserDto[] = users.map((user) => ({
       id: user.id,
       name: user.name,
@@ -29,12 +30,23 @@ export class UserController {
       birthday: user.birthday,
       createdAt: user.createdAt,
     }));
+
     return userDtos;
   }
 
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<UserDto> {
-    return await this.userService.findOne(id);
+    const user = await this.userService.findOne(id);
+
+    const userDto: UserDto = {
+      id: user.id,
+      name: user.name,
+      mail: user.mail,
+      birthday: user.birthday,
+      createdAt: user.createdAt,
+    };
+
+    return userDto;
   }
 
   @Post()
@@ -49,6 +61,7 @@ export class UserController {
         mail: createdUser.mail,
         birthday: createdUser.birthday,
       };
+
       return userDto;
     } catch (error) {
       throw new HttpException(
@@ -63,7 +76,17 @@ export class UserController {
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto,
   ): Promise<UserDto> {
-    return await this.userService.update(id, updateUserDto);
+    const updatedUser = await this.userService.update(id, updateUserDto);
+
+    const userDto: UserDto = {
+      id: updatedUser.id,
+      name: updatedUser.name,
+      mail: updatedUser.mail,
+      birthday: updatedUser.birthday,
+      createdAt: updatedUser.createdAt,
+    };
+
+    return userDto;
   }
 
   @Delete(':id')

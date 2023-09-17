@@ -75,15 +75,13 @@ export class UserController {
   async update(
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto,
-  ): Promise<UserDto> {
+  ): Promise<UpdateUserDto> {
     const updatedUser = await this.userService.update(id, updateUserDto);
 
-    const userDto: UserDto = {
-      id: updatedUser.id,
+    const userDto: UpdateUserDto = {
       name: updatedUser.name,
       mail: updatedUser.mail,
       birthday: updatedUser.birthday,
-      createdAt: updatedUser.createdAt,
     };
 
     return userDto;

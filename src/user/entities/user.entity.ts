@@ -19,7 +19,7 @@ export class User {
   @Column({ type: 'varchar', length: 255 })
   password: string;
 
-  @Column({ type: 'date' })
+  @Column({ type: 'date', nullable: true })
   birthday: Date;
 
   @CreateDateColumn({ type: 'date' })

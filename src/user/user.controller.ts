@@ -2,10 +2,10 @@ import {
   Controller,
   Get,
   Post,
-  Put,
   Delete,
   Body,
   Param,
+  Patch,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -61,7 +61,6 @@ export class UserController {
         mail: createdUser.mail,
         birthday: createdUser.birthday,
       };
-
       return userDto;
     } catch (error) {
       throw new HttpException(
@@ -71,7 +70,7 @@ export class UserController {
     }
   }
 
-  @Put(':id')
+  @Patch(':id')
   async update(
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto,

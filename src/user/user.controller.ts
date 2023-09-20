@@ -6,6 +6,7 @@ import {
   Body,
   Param,
   Patch,
+  Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -19,9 +20,12 @@ import { CreateUserResponseDto } from './dto/create-user-response.dto';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get('')
-  async findAll(): Promise<UserDto[]> {
-    const users = await this.userService.findAll();
+  @Get()
+  async findAllWithSortingAndPaginatio(
+    @Query() queryValue,
+  ): Promise<UserDto[]> {
+    const users =
+      await this.userService.findAllWithSortingAndPaginatio(queryValue);
 
     const userDtos: UserDto[] = users.map((user) => ({
       id: user.id,

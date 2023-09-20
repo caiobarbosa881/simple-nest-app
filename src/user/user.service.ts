@@ -13,8 +13,45 @@ export class UserService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async findAll(): Promise<UserDto[]> {
-    return await this.userRepository.find();
+  async findAllWithSortingAndPaginatio(queryValue?): Promise<UserDto[]> {
+    const { _start, _end, _sort, _order } = queryValue;
+
+    if (_order === undefined) {
+      const queryBuilder = this.userRepository
+        .createQueryBuilder('user')
+        .skip(_start)
+        .take(_end - _start + 1);
+
+      const users = await queryBuilder.getMany();
+
+      const userDtos: UserDto[] = users.map((user) => ({
+        id: user.id,
+        name: user.name,
+        mail: user.mail,
+        birthday: user.birthday,
+        createdAt: user.createdAt,
+      }));
+
+      return userDtos;
+    } else {
+      const queryBuilder = this.userRepository
+        .createQueryBuilder('user')
+        .orderBy(`user.${_sort}`, _order.toUpperCase())
+        .skip(_start)
+        .take(_end - _start + 1);
+
+      const users = await queryBuilder.getMany();
+
+      const userDtos: UserDto[] = users.map((user) => ({
+        id: user.id,
+        name: user.name,
+        mail: user.mail,
+        birthday: user.birthday,
+        createdAt: user.createdAt,
+      }));
+
+      return userDtos;
+    }
   }
 
   async findOne(id: string): Promise<UserDto> {

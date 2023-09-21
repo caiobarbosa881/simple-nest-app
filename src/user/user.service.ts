@@ -13,7 +13,7 @@ export class UserService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async findAllWithSortingAndPaginatio(queryValue?): Promise<UserDto[]> {
+  async findAllWithSortingAndPagination(queryValue?): Promise<UserDto[]> {
     const { _start, _end, _sort, _order } = queryValue;
 
     if (_order === undefined) {
@@ -36,7 +36,7 @@ export class UserService {
     } else {
       const queryBuilder = this.userRepository
         .createQueryBuilder('user')
-        .orderBy(`user.${_sort}`, _order.toUpperCase())
+        .orderBy(`LOWER(user.${_sort})`, _order.toUpperCase())
         .skip(_start)
         .take(_end - _start + 1);
 

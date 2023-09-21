@@ -25,7 +25,7 @@ export class UserController {
     @Query() queryValue,
   ): Promise<UserDto[]> {
     const users =
-      await this.userService.findAllWithSortingAndPaginatio(queryValue);
+      await this.userService.findAllWithSortingAndPagination(queryValue);
 
     const userDtos: UserDto[] = users.map((user) => ({
       id: user.id,

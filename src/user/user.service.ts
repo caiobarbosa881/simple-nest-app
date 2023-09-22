@@ -64,6 +64,18 @@ export class UserService {
     return user;
   }
 
+  async findOneForLogin(username: string): Promise<User> {
+    const user = await this.userRepository.findOne({
+      where: { name: username },
+    });
+    if (!user) {
+      throw new NotFoundException(
+        `Usuário com esse id ${username} não foi encontrado`,
+      );
+    }
+    return user;
+  }
+
   async create(createUserDto: CreateUserDto): Promise<CreateUserDto> {
     const user = this.userRepository.create(createUserDto);
     return await this.userRepository.save(user);
